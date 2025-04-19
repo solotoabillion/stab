@@ -32,6 +32,13 @@ type jwtCustomClaims struct {
 	jwt.RegisteredClaims
 }
 
+func errorHandler(c echo.Context, err error) error {
+	return c.JSON(401, map[string]string{
+		"error":   "Unauthorized",
+		"message": "Please log in to access this resource.",
+	})
+}
+
 func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 	////////////////////////////////////////////////////////////
 	// /api/knowledgebase routes
@@ -42,11 +49,8 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			echojwt.WithConfig(echojwt.Config{
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
-				TokenLookup:   "cookie:auth",
-				// ErrorHandler: func(c echo.Context, err error) error {
-				// 	c.Redirect(302, "/auth/login")
-				// 	return nil
-				// },
+				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
+				ErrorHandler: errorHandler,
 			}),
 		}...,
 	)
@@ -67,11 +71,8 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			echojwt.WithConfig(echojwt.Config{
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
-				TokenLookup:   "cookie:auth",
-				// ErrorHandler: func(c echo.Context, err error) error {
-				// 	c.Redirect(302, "/auth/login")
-				// 	return nil
-				// },
+				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
+				ErrorHandler: errorHandler,
 			}),
 			// svcCtx.AdminRequired, // Middleware applied by consumer
 		}...,
@@ -159,11 +160,8 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			echojwt.WithConfig(echojwt.Config{
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
-				TokenLookup:   "cookie:auth",
-				// ErrorHandler: func(c echo.Context, err error) error {
-				// 	c.Redirect(302, "/auth/login")
-				// 	return nil
-				// },
+				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
+				ErrorHandler: errorHandler,
 			}),
 		}...,
 	)
@@ -190,11 +188,8 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			echojwt.WithConfig(echojwt.Config{
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
-				TokenLookup:   "cookie:auth",
-				// ErrorHandler: func(c echo.Context, err error) error {
-				// 	c.Redirect(302, "/auth/login")
-				// 	return nil
-				// },
+				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
+				ErrorHandler: errorHandler,
 			}),
 		}...,
 	)
@@ -220,11 +215,8 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			echojwt.WithConfig(echojwt.Config{
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
-				TokenLookup:   "cookie:auth",
-				// ErrorHandler: func(c echo.Context, err error) error {
-				// 	c.Redirect(302, "/auth/login")
-				// 	return nil
-				// },
+				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
+				ErrorHandler: errorHandler,
 			}),
 		}...,
 	)
@@ -255,11 +247,8 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			echojwt.WithConfig(echojwt.Config{
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
-				TokenLookup:   "cookie:auth",
-				// ErrorHandler: func(c echo.Context, err error) error {
-				// 	c.Redirect(302, "/auth/login")
-				// 	return nil
-				// },
+				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
+				ErrorHandler: errorHandler,
 			}),
 		}...,
 	)
@@ -280,11 +269,8 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			echojwt.WithConfig(echojwt.Config{
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
-				TokenLookup:   "cookie:auth",
-				// ErrorHandler: func(c echo.Context, err error) error {
-				// 	c.Redirect(302, "/auth/login")
-				// 	return nil
-				// },
+				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
+				ErrorHandler: errorHandler,
 			}),
 		}...,
 	)
@@ -308,11 +294,8 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			echojwt.WithConfig(echojwt.Config{
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
-				TokenLookup:   "cookie:auth",
-				// ErrorHandler: func(c echo.Context, err error) error {
-				// 	c.Redirect(302, "/auth/login")
-				// 	return nil
-				// },
+				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
+				ErrorHandler: errorHandler,
 			}),
 			// svcCtx.AdminRequired, // Middleware applied by consumer
 		}...,
@@ -337,11 +320,8 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			echojwt.WithConfig(echojwt.Config{
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
-				TokenLookup:   "cookie:auth",
-				// ErrorHandler: func(c echo.Context, err error) error {
-				// 	c.Redirect(302, "/auth/login")
-				// 	return nil
-				// },
+				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
+				ErrorHandler: errorHandler,
 			}),
 			// svcCtx.AdminRequired, // Middleware applied by consumer
 		}...,
@@ -378,5 +358,4 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			// customStatic("../frontend/dist"),
 		}...,
 	)
-
 }
