@@ -3,7 +3,7 @@ package middleware
 import (
 	"strings"
 
-	"stab/core/session"
+	"github.com/solotoabillion/stab/core/session"
 
 	"github.com/labstack/echo/v4"
 )

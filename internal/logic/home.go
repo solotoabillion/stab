@@ -3,7 +3,7 @@ package logic
 import (
 	"context"
 
-	"stab/svc"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 	"github.com/zeromicro/go-zero/core/logx"
