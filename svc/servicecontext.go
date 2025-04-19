@@ -13,6 +13,7 @@ import (
 	"github.com/solotoabillion/stab/core/jobs"
 	"github.com/solotoabillion/stab/core/session"
 	"github.com/solotoabillion/stab/db"
+	"github.com/solotoabillion/stab/middleware"
 	"github.com/solotoabillion/stab/models" // Added import for models
 
 	"github.com/redis/go-redis/v9"
@@ -23,8 +24,8 @@ import (
 	"gorm.io/driver/postgres"                 // Need GORM driver
 	"gorm.io/gorm"
 
-	// "github.com/labstack/echo/v4" // Removed: Middleware/Echo types don't belong here
-	_ "github.com/lib/pq" // Keep for GORM Postgres driver side effects
+	"github.com/labstack/echo/v4"
+	_ "github.com/lib/pq"
 )
 
 // ServiceContext holds shared resources and configurations for the Soul module.
@@ -47,6 +48,11 @@ type ServiceContext struct {
 	Settings         models.SettingsMap     // Changed type to match LoadAllSettings return type
 	// Removed Middleware fields: CustomStatic, NoCache, AdminRequired
 	// Removed Settings field: Rely on Config directly
+	UserGuardMiddleware     echo.MiddlewareFunc
+	AdminGuardMiddleware    echo.MiddlewareFunc
+	AuthGuardMiddleware     echo.MiddlewareFunc
+	NoCacheMiddleware       echo.MiddlewareFunc
+	AdminRequiredMiddleware echo.MiddlewareFunc
 }
 
 // --- modules.ModuleContext Implementation ---
@@ -245,7 +251,11 @@ func NewServiceContext(c *config.Config) (*ServiceContext, error) {
 		ModuleServices: make(map[string]interface{}), // Initialize empty map
 		Settings:       make(models.SettingsMap),     // Initialize with correct type
 
-		// Removed AI/LLM/MCP client assignments
+		UserGuardMiddleware:     middleware.NewUserGuardMiddleware(c, gormDB).Handle,
+		AdminGuardMiddleware:    middleware.NewAccountGuardMiddleware(c, gormDB).Handle,
+		AuthGuardMiddleware:     middleware.NewAuthGuardMiddleware().Handle,
+		NoCacheMiddleware:       middleware.NewNoCacheMiddleware().Handle,
+		AdminRequiredMiddleware: middleware.NewAdminRequiredMiddleware().Handle,
 	}
 
 	return svcCtx, nil

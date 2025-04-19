@@ -10,7 +10,15 @@ import (
 // AdminRequired checks if the authenticated user has admin privileges.
 // Renamed to lowercase to match apparent soul generator convention/bug.
 // Assumes JWT middleware runs before this and populates c.Get("user").
-func AdminRequired(next echo.HandlerFunc) echo.HandlerFunc {
+
+type AdminRequiredMiddleware struct {
+}
+
+func NewAdminRequiredMiddleware() *AdminRequiredMiddleware {
+	return &AdminRequiredMiddleware{}
+}
+
+func (m *AdminRequiredMiddleware) Handle(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		userToken, ok := c.Get("user").(*jwt.Token) // Assumes JWT middleware uses "user" key
 		if !ok || userToken == nil {

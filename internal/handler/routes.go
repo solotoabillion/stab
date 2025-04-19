@@ -163,6 +163,9 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
 				ErrorHandler: errorHandler,
 			}),
+			svcCtx.UserGuardMiddleware,
+			svcCtx.NoCacheMiddleware,
+			svcCtx.AuthGuardMiddleware,
 		}...,
 	)
 	// profileGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
@@ -191,6 +194,9 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
 				ErrorHandler: errorHandler,
 			}),
+			svcCtx.UserGuardMiddleware,
+			svcCtx.NoCacheMiddleware,
+			svcCtx.AuthGuardMiddleware,
 		}...,
 	)
 	// billingGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
@@ -218,6 +224,9 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
 				ErrorHandler: errorHandler,
 			}),
+			svcCtx.UserGuardMiddleware,
+			svcCtx.NoCacheMiddleware,
+			svcCtx.AuthGuardMiddleware,
 		}...,
 	)
 	// teamsGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
@@ -250,6 +259,9 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
 				ErrorHandler: errorHandler,
 			}),
+			svcCtx.UserGuardMiddleware,
+			svcCtx.NoCacheMiddleware,
+			svcCtx.AuthGuardMiddleware,
 		}...,
 	)
 	// developerGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
@@ -272,6 +284,9 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
 				ErrorHandler: errorHandler,
 			}),
+			svcCtx.UserGuardMiddleware,
+			svcCtx.NoCacheMiddleware,
+			svcCtx.AuthGuardMiddleware,
 		}...,
 	)
 	// notificationsGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
@@ -297,7 +312,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
 				ErrorHandler: errorHandler,
 			}),
-			// svcCtx.AdminRequired, // Middleware applied by consumer
+			svcCtx.UserGuardMiddleware,
+			svcCtx.NoCacheMiddleware,
+			svcCtx.AuthGuardMiddleware,
+			svcCtx.AdminRequiredMiddleware,
 		}...,
 	)
 	// adminGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
@@ -323,7 +341,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				TokenLookup:   "header:Authorization:Bearer,cookie:auth",
 				ErrorHandler: errorHandler,
 			}),
-			// svcCtx.AdminRequired, // Middleware applied by consumer
+			svcCtx.UserGuardMiddleware,
+			svcCtx.NoCacheMiddleware,
+			svcCtx.AuthGuardMiddleware,
+			svcCtx.AdminRequiredMiddleware,
 		}...,
 	)
 	// adminSettingsGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
