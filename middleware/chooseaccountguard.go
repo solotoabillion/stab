@@ -1,8 +1,9 @@
 package middleware
 
 import (
-	"stab/core/session"
 	"strings"
+
+	"stab/core/session"
 
 	"github.com/labstack/echo/v4"
 )

@@ -6,13 +6,13 @@ import (
 
 	// Import necessary packages from within the module
 	"stab/config"
-	"stab/internal/handler"
-	"stab/modules" // Use the modules package for initialization functions
+	"stab/internal/handler" // Added back handler import
+	"stab/modules"          // Use the modules package for initialization functions
 	"stab/svc"
 
 	// "stab/middleware" // Middleware isn't directly used here anymore
 
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4" // Added back echo import
 	// echoMiddleware "github.com/labstack/echo/v4/middleware" // Alias not needed now
 )
 
@@ -46,16 +46,15 @@ func New(cfg config.Config) (*svc.ServiceContext, error) {
 
 // RegisterRoutes registers the core API routes provided by the stab module
 // onto an existing Echo instance provided by the consuming application.
-// It assumes the consuming application will apply necessary middleware (auth, CORS, logging, etc.).
-func RegisterRoutes(e *echo.Echo, svcCtx *svc.ServiceContext) {
+// It calls the internal handler registration logic.
+func RegisterRoutes(e *echo.Echo, svcCtx *svc.ServiceContext) { // Added function back
 	log.Println("Registering stab module core routes...")
 
 	// --- Register Handlers ---
 	// The handler.RegisterHandlers function defines all the core API groups and routes.
-	handler.RegisterHandlers(e, svcCtx)
+	handler.RegisterHandlers(e, svcCtx) // Call the internal registration
 
-	// Note: Middleware like AdminRequired, AuthGuard, RemoveTrailingSlash, CORS
-	// should be applied by the consuming application around these routes as needed.
+	// Note: Middleware should be applied by the consuming application.
 
 	log.Println("stab module core routes registered.")
 }

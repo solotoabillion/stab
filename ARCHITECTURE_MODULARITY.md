@@ -74,8 +74,8 @@ The `soul new` command requires the following enhancements to support this archi
 
     import (
     	// Discovered module initializers/registrars
-    	_ "stab/internal/modules/agentic_cs/init"
-    	// _ "stab/internal/modules/another_module/init" // Added automatically
+    	_ "github.com/solotoabillion/stab/internal/modules/agentic_cs/init"
+    	// _ "github.com/solotoabillion/stab/internal/modules/another_module/init" // Added automatically
     )
     ```
 
@@ -102,7 +102,7 @@ use (
 - **Interface:** Introduce a simple Go interface and registry (`stab/internal/dbmodels/interface.go`) for modules to declare their GORM models (`dbmodels.ModelProvider`).
 - **Module Implementation:** Modules define GORM models in `models/` and register them via `dbmodels.RegisterProvider()` in their `init/register.go`'s `init()` function.
 - **Core Integration:**
-  - The `stab/internal/database/database.go` file's `InitDatabase` function includes **one** side-effect import: `_ "stab/internal/registry"`. This triggers the `init()` functions in all modules' `init` packages via the generated registry file.
+  - The `stab/internal/database/database.go` file's `InitDatabase` function includes **one** side-effect import: `_ "github.com/solotoabillion/stab/internal/registry"`. This triggers the `init()` functions in all modules' `init` packages via the generated registry file.
   - It calls `dbmodels.GetAllModels()` to retrieve models registered by modules.
   - It appends the collected module models to the list of core models passed to `svcCtx.DB.AutoMigrate(...)`.
 
@@ -112,7 +112,7 @@ use (
 - **Interface:** Define a Go interface and registry (`stab/internal/moduleinit/interface.go`) for module initializers (`moduleinit.Initializer`).
 - **Module Implementation:** Modules needing initialization implement the `moduleinit.Initializer` interface and register it via `moduleinit.Register()` in their `init/register.go`'s `init()` function.
 - **Core Integration (`backend.go`):**
-  - Include **one** side-effect import: `_ "stab/internal/registry"`. This triggers the `init()` functions in all modules' `init` packages via the generated registry file.
+  - Include **one** side-effect import: `_ "github.com/solotoabillion/stab/internal/registry"`. This triggers the `init()` functions in all modules' `init` packages via the generated registry file.
   - Call `moduleinit.RunInitializers(svcCtx)` after core services are initialized but before the server starts.
   - Defer `moduleinit.RunShutdowns(svcCtx)` early in `main()`.
 

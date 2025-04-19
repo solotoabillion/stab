@@ -2,8 +2,8 @@
 package handler
 
 import (
-	// Use new top-level paths
-	admin "stab/internal/handler/admin"
+	// Use correct paths relative to module root ('stab')
+	admin "stab/internal/handler/admin" // Keep internal handlers
 	adminsettings "stab/internal/handler/admin/settings"
 	api "stab/internal/handler/api"
 	auth "stab/internal/handler/auth"
@@ -16,29 +16,44 @@ import (
 	notifications "stab/internal/handler/notifications"
 	profile "stab/internal/handler/profile"
 	teams "stab/internal/handler/teams"
-	// Removed imports for agentic_cs module handlers
-	// support "stab/modules/agentic_cs/handler/support"
-	// supportadmin "stab/modules/agentic_cs/handler/support/admin"
-	// Import svc from its new top-level path
-	"stab/svc"
+	// Removed imports for non-existent agentic_cs module
+	// support "stab/internal/modules/agentic_cs/handler/support"
+	// supportadmin "stab/internal/modules/agentic_cs/handler/support/admin"
+	"stab/svc" // Use correct svc path
 
-	// Keep external imports
-	// "github.com/golang-jwt/jwt/v5" // Removed: JWT logic handled elsewhere
-	// "github.com/labstack/echo-jwt/v4" // Removed: JWT logic handled elsewhere
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 )
 
-// Removed: jwtCustomClaims struct - Not needed here
+type jwtCustomClaims struct {
+	Name  string `json:"name"`
+	Admin bool   `json:"admin"`
+	jwt.RegisteredClaims
+}
 
-// RegisterHandlers registers only the core route handlers onto the provided Echo instance.
-// Middleware (like JWT checks, admin checks) should be applied by the caller
-// (either the consuming application or the main soul.RegisterRoutes function).
 func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 	////////////////////////////////////////////////////////////
 	// /api/knowledgebase routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	knowledgebaseGroup := server.Group("/api/knowledgebase")
+	knowledgebaseGroup := server.Group(
+		"/api/knowledgebase",
+		[]echo.MiddlewareFunc{
+			echojwt.WithConfig(echojwt.Config{
+				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
+				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
+				TokenLookup:   "cookie:auth",
+				ErrorHandler: func(c echo.Context, err error) error {
+					c.Redirect(302, "/auth/login")
+					return nil
+				},
+			}),
+		}...,
+	)
+	// knowledgebaseGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	knowledgebaseGroup.GET("/articles", knowledgebase.GetListArticlesHandler(svcCtx, "/articles"))
 	knowledgebaseGroup.GET("/articles/search", knowledgebase.GetSearchArticlesHandler(svcCtx, "/articles/search"))
 	knowledgebaseGroup.GET("/articles/:id", knowledgebase.GetArticleHandler(svcCtx, "/articles/:id"))
@@ -46,8 +61,25 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 	////////////////////////////////////////////////////////////
 	// /api/admin/knowledgebase routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	knowledgebaseAdminGroup := server.Group("/api/admin/knowledgebase")
+	knowledgebaseAdminGroup := server.Group(
+		"/api/admin/knowledgebase",
+		[]echo.MiddlewareFunc{
+			echojwt.WithConfig(echojwt.Config{
+				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
+				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
+				TokenLookup:   "cookie:auth",
+				ErrorHandler: func(c echo.Context, err error) error {
+					c.Redirect(302, "/auth/login")
+					return nil
+				},
+			}),
+			// svcCtx.AdminRequired, // Middleware applied by consumer
+		}...,
+	)
+	// knowledgebaseAdminGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	knowledgebaseAdminGroup.POST("/articles", knowledgebaseadmin.PostCreateArticleHandler(svcCtx, "/articles"))
 	knowledgebaseAdminGroup.PUT("/articles/:id", knowledgebaseadmin.PutUpdateArticleHandler(svcCtx, "/articles/:id"))
 	knowledgebaseAdminGroup.DELETE("/articles/:id", knowledgebaseadmin.DeleteArticleHandler(svcCtx, "/articles/:id"))
@@ -55,8 +87,13 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 	////////////////////////////////////////////////////////////
 	// /health routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	healthGroup := server.Group("/health")
+	healthGroup := server.Group(
+		"/health",
+	)
+	// healthGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	healthGroup.GET("/healthz", health.GetHealthCheckHandler(svcCtx, "/healthz"))
 	healthGroup.GET("/readyz", health.GetReadinessCheckHandler(svcCtx, "/readyz"))
 	healthGroup.GET("/livez", health.GetLivenessCheckHandler(svcCtx, "/livez"))
@@ -64,15 +101,29 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 	////////////////////////////////////////////////////////////
 	// /api routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	apiGroup := server.Group("/api")
+	apiGroup := server.Group(
+		"/api",
+		// []echo.MiddlewareFunc{ // Middleware applied by consumer
+		// 	svcCtx.NoCache,
+		// }...,
+	)
+	// apiGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	apiGroup.GET("/plans", api.GetPlansHandler(svcCtx, "/plans"))
+	// apiGroup.Any("/*", fallbackHandler)
 
 	////////////////////////////////////////////////////////////
 	// /api/auth routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	authGroup := server.Group("/api/auth")
+	authGroup := server.Group(
+		"/api/auth",
+	)
+	// authGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	authGroup.POST("/register", auth.PostRegisterUserHandler(svcCtx, "/register"))
 	authGroup.POST("/login", auth.PostLoginUserHandler(svcCtx, "/login"))
 	authGroup.POST("/forgot-password", auth.PostForgotPasswordHandler(svcCtx, "/forgot-password"))
@@ -81,22 +132,45 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 	authGroup.POST("/login/verify", auth.PostVerifyLoginCodeHandler(svcCtx, "/login/verify"))
 	authGroup.GET("/login/google", auth.GetGoogleLoginHandler(svcCtx, "/login/google"))
 	authGroup.GET("/callback/google", auth.GetGoogleCallbackHandler(svcCtx, "/callback/google"))
+	// authGroup.Any("/*", fallbackHandler)
 
 	////////////////////////////////////////////////////////////
 	// /api/blog routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	blogGroup := server.Group("/api/blog")
+	blogGroup := server.Group(
+		"/api/blog",
+	)
+	// blogGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	blogGroup.GET("/posts", blog.GetListPublishedPostsHandler(svcCtx, "/posts"))
 	blogGroup.GET("/posts/:slug", blog.GetPostBySlugHandler(svcCtx, "/posts/:slug"))
 	blogGroup.GET("/tags/:tagSlug/posts", blog.GetListPostsByTagHandler(svcCtx, "/tags/:tagSlug/posts"))
 	blogGroup.GET("/categories/:categorySlug/posts", blog.GetListPostsByCategoryHandler(svcCtx, "/categories/:categorySlug/posts"))
+	// blogGroup.Any("/*", fallbackHandler)
 
 	////////////////////////////////////////////////////////////
 	// /api/profile routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	profileGroup := server.Group("/api/profile")
+	profileGroup := server.Group(
+		"/api/profile",
+		[]echo.MiddlewareFunc{
+			echojwt.WithConfig(echojwt.Config{
+				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
+				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
+				TokenLookup:   "cookie:auth",
+				ErrorHandler: func(c echo.Context, err error) error {
+					c.Redirect(302, "/auth/login")
+					return nil
+				},
+			}),
+		}...,
+	)
+	// profileGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	profileGroup.GET("", profile.GetProfileHandler(svcCtx, ""))
 	profileGroup.POST("/regenerate-apikey", profile.PostRegenerateApiKeyHandler(svcCtx, "/regenerate-apikey"))
 	profileGroup.POST("/revoke-apikey", profile.PostRevokeApiKeyHandler(svcCtx, "/revoke-apikey"))
@@ -105,25 +179,59 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 	profileGroup.GET("/preferences/email", profile.GetEmailPreferencesHandler(svcCtx, "/preferences/email"))
 	profileGroup.PUT("/preferences/email", profile.PutUpdateEmailPreferencesHandler(svcCtx, "/preferences/email"))
 	profileGroup.GET("/settings/security", profile.GetSecuritySettingsHandler(svcCtx, "/settings/security"))
+	// profileGroup.Any("/*", fallbackHandler)
 
 	////////////////////////////////////////////////////////////
 	// /api/billing routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	billingGroup := server.Group("/api/billing")
+	billingGroup := server.Group(
+		"/api/billing",
+		[]echo.MiddlewareFunc{
+			echojwt.WithConfig(echojwt.Config{
+				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
+				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
+				TokenLookup:   "cookie:auth",
+				ErrorHandler: func(c echo.Context, err error) error {
+					c.Redirect(302, "/auth/login")
+					return nil
+				},
+			}),
+		}...,
+	)
+	// billingGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	billingGroup.POST("/checkout-session", billing.PostCreateCheckoutSessionHandler(svcCtx, "/checkout-session"))
 	billingGroup.POST("/portal-session", billing.PostCreatePortalSessionHandler(svcCtx, "/portal-session"))
 	billingGroup.GET("/subscription", billing.GetSubscriptionHandler(svcCtx, "/subscription"))
 	billingGroup.GET("/invoices", billing.GetInvoicesHandler(svcCtx, "/invoices"))
 	billingGroup.POST("/add-ons/:addonId", billing.PostAddAddonHandler(svcCtx, "/add-ons/:addonId"))
 	billingGroup.DELETE("/add-ons/:addonId", billing.DeleteRemoveAddonHandler(svcCtx, "/add-ons/:addonId"))
-	billingGroup.POST("/webhook", billing.PostStripeWebhookHandler(svcCtx, "/webhook")) // Note: Webhook might need special handling outside normal auth
+	billingGroup.POST("/webhook", billing.PostStripeWebhookHandler(svcCtx, "/webhook"))
+	// billingGroup.Any("/*", fallbackHandler)
 
 	////////////////////////////////////////////////////////////
 	// /api/teams routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	teamsGroup := server.Group("/api/teams")
+	teamsGroup := server.Group(
+		"/api/teams",
+		[]echo.MiddlewareFunc{
+			echojwt.WithConfig(echojwt.Config{
+				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
+				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
+				TokenLookup:   "cookie:auth",
+				ErrorHandler: func(c echo.Context, err error) error {
+					c.Redirect(302, "/auth/login")
+					return nil
+				},
+			}),
+		}...,
+	)
+	// teamsGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	teamsGroup.POST("", teams.PostCreateTeamHandler(svcCtx, ""))
 	teamsGroup.GET("", teams.GetListTeamsHandler(svcCtx, ""))
 	teamsGroup.GET("/:teamId", teams.GetTeamDetailsHandler(svcCtx, "/:teamId"))
@@ -136,42 +244,112 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 	teamsGroup.GET("/invitations/:token", teams.GetInvitationDetailsHandler(svcCtx, "/invitations/:token"))
 	teamsGroup.POST("/invitations/:token/accept", teams.PostAcceptInvitationHandler(svcCtx, "/invitations/:token/accept"))
 	teamsGroup.POST("/invitations/:token/decline", teams.PostDeclineInvitationHandler(svcCtx, "/invitations/:token/decline"))
+	// teamsGroup.Any("/*", fallbackHandler)
 
 	////////////////////////////////////////////////////////////
 	// /api/developer routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	developerGroup := server.Group("/api/developer")
+	developerGroup := server.Group(
+		"/api/developer",
+		[]echo.MiddlewareFunc{
+			echojwt.WithConfig(echojwt.Config{
+				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
+				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
+				TokenLookup:   "cookie:auth",
+				ErrorHandler: func(c echo.Context, err error) error {
+					c.Redirect(302, "/auth/login")
+					return nil
+				},
+			}),
+		}...,
+	)
+	// developerGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	developerGroup.GET("/usage", developer.GetAPIUsageStatsHandler(svcCtx, "/usage"))
 	developerGroup.GET("/rate-limit", developer.GetRateLimitStatusHandler(svcCtx, "/rate-limit"))
+	// developerGroup.Any("/*", fallbackHandler)
 
 	////////////////////////////////////////////////////////////
 	// /api/notifications routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	notificationsGroup := server.Group("/api/notifications")
+	notificationsGroup := server.Group(
+		"/api/notifications",
+		[]echo.MiddlewareFunc{
+			echojwt.WithConfig(echojwt.Config{
+				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
+				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
+				TokenLookup:   "cookie:auth",
+				ErrorHandler: func(c echo.Context, err error) error {
+					c.Redirect(302, "/auth/login")
+					return nil
+				},
+			}),
+		}...,
+	)
+	// notificationsGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	notificationsGroup.GET("", notifications.GetListNotificationsHandler(svcCtx, ""))
 	notificationsGroup.POST("/read-all", notifications.PostMarkAllNotificationsReadHandler(svcCtx, "/read-all"))
 	notificationsGroup.POST("/:notificationId/read", notifications.PostMarkNotificationReadHandler(svcCtx, "/:notificationId/read"))
+	// notificationsGroup.Any("/*", fallbackHandler)
 
-	// Removed route groups for agentic_cs module (/api/support and /api/admin/support)
+	// Removed route groups for non-existent agentic_cs module
 
 	////////////////////////////////////////////////////////////
 	// /api/admin routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	adminGroup := server.Group("/api/admin")
+	adminGroup := server.Group(
+		"/api/admin",
+		[]echo.MiddlewareFunc{
+			echojwt.WithConfig(echojwt.Config{
+				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
+				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
+				TokenLookup:   "cookie:auth",
+				ErrorHandler: func(c echo.Context, err error) error {
+					c.Redirect(302, "/auth/login")
+					return nil
+				},
+			}),
+			// svcCtx.AdminRequired, // Middleware applied by consumer
+		}...,
+	)
+	// adminGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	adminGroup.GET("/users", admin.GetListUsersAdminHandler(svcCtx, "/users"))
 	adminGroup.GET("/users/:userId", admin.GetUserDetailsAdminHandler(svcCtx, "/users/:userId"))
 	adminGroup.GET("/users/:userId/communications", admin.GetListUserCommunicationsHandler(svcCtx, "/users/:userId/communications"))
 	adminGroup.POST("/users/:userId/communications", admin.PostSendCommunicationHandler(svcCtx, "/users/:userId/communications"))
 	adminGroup.GET("/dashboard/metrics", admin.GetDashboardMetricsHandler(svcCtx, "/dashboard/metrics"))
+	// adminGroup.Any("/*", fallbackHandler)
 
 	////////////////////////////////////////////////////////////
 	// /api/admin/settings routes
 	////////////////////////////////////////////////////////////
-	// Middleware removed from group definition
-	adminSettingsGroup := server.Group("/api/admin/settings")
+	adminSettingsGroup := server.Group(
+		"/api/admin/settings",
+		[]echo.MiddlewareFunc{
+			echojwt.WithConfig(echojwt.Config{
+				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
+				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
+				TokenLookup:   "cookie:auth",
+				ErrorHandler: func(c echo.Context, err error) error {
+					c.Redirect(302, "/auth/login")
+					return nil
+				},
+			}),
+			// svcCtx.AdminRequired, // Middleware applied by consumer
+		}...,
+	)
+	// adminSettingsGroup.Use(middleware.RemoveTrailingSlashWithConfig(middleware.TrailingSlashConfig{
+	// 	RedirectCode: http.StatusMovedPermanently,
+	// }))
+
 	adminSettingsGroup.POST("/reload", adminsettings.PostReloadSettingsHandler(svcCtx, "/reload"))
 	adminSettingsGroup.GET("", adminsettings.GetListSettingsHandler(svcCtx, ""))
 	adminSettingsGroup.GET("/:category/:key", adminsettings.GetSettingHandler(svcCtx, "/:category/:key"))
@@ -179,6 +357,26 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 	adminSettingsGroup.POST("", adminsettings.PostCreateSettingHandler(svcCtx, ""))
 	adminSettingsGroup.POST("/save", adminsettings.PostSaveSettingsHandler(svcCtx, "/save"))
 	adminSettingsGroup.DELETE("/:category/:key", adminsettings.DeleteSettingHandler(svcCtx, "/:category/:key"))
+	// adminSettingsGroup.Any("/*", fallbackHandler)
 
-	// Removed: Catchall group for static website - Consumer responsibility
+	////////////////////////////////////////////////////////////
+	// Catchall handler for static website
+	////////////////////////////////////////////////////////////
+	server.Group("",
+		[]echo.MiddlewareFunc{
+			echojwt.WithConfig(echojwt.Config{
+				NewClaimsFunc:          func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
+				SigningKey:             []byte(svcCtx.Config.Auth.AccessSecret),
+				TokenLookup:            "cookie:auth",
+				ContinueOnIgnoredError: true,
+				ErrorHandler: func(c echo.Context, err error) error {
+					// Simply continue to next middleware without error
+					return nil
+				},
+			}),
+			// svcCtx.CustomStatic, // Static file serving handled by consumer
+			// customStatic("../frontend/dist"),
+		}...,
+	)
+
 }

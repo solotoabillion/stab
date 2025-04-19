@@ -4,9 +4,9 @@ package settings
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/admin/settings"
-	"stab/svc"
-	"stab/types"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/admin/settings"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/labstack/echo/v4"
 	"github.com/templwind/soul/webserver/httpx"
