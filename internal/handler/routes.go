@@ -347,7 +347,7 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 			echojwt.WithConfig(echojwt.Config{
 				NewClaimsFunc:          func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:             []byte(svcCtx.Config.Auth.AccessSecret),
-				TokenLookup:            "cookie:auth",
+				TokenLookup:            "header:Authorization:Bearer,cookie:auth",
 				ContinueOnIgnoredError: true,
 				ErrorHandler: func(c echo.Context, err error) error {
 					// Simply continue to next middleware without error
