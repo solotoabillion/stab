@@ -3,9 +3,9 @@ package profile
 import (
 	"context"
 
-	"stab/core/session"
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/core/session"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/labstack/echo/v4"
 	"github.com/zeromicro/go-zero/core/logx"

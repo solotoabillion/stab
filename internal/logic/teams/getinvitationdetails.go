@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"stab/models"
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/models"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/google/uuid" // Needed for Team.ID check
 	"github.com/labstack/echo/v4"

@@ -3,7 +3,7 @@ package session
 import (
 	"net/http"
 
-	"stab/config"
+	"github.com/solotoabillion/stab/config"
 
 	"github.com/labstack/echo/v4"
 )

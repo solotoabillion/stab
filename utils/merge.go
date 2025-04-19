@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"time"
 
-	"stab/types"
+	"github.com/solotoabillion/stab/types"
 )
 
 // New merges non-zero fields from form into db based on matching tags, preserving ID and leaving missing fields unchanged.

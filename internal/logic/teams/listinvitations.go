@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time" // Added for time formatting
 
-	"stab/middleware"
-	"stab/models"
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/middleware"
+	"github.com/solotoabillion/stab/models"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"

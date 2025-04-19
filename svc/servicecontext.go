@@ -1,20 +1,19 @@
 package svc
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"sync" // Added for ModuleServices mutex
 	"time" // Needed for DB connection pool settings
 
 	// Use new top-level package paths
-	"stab/config"
-	"stab/core/cache"
-	"stab/core/communication"
-	"stab/core/jobs"
-	"stab/core/session"
-	"stab/db"
-	"stab/models" // Added import for models
+	"github.com/solotoabillion/stab/config"
+	"github.com/solotoabillion/stab/core/cache"
+	"github.com/solotoabillion/stab/core/communication"
+	"github.com/solotoabillion/stab/core/jobs"
+	"github.com/solotoabillion/stab/core/session"
+	"github.com/solotoabillion/stab/db"
+	"github.com/solotoabillion/stab/models" // Added import for models
 
 	"github.com/redis/go-redis/v9"
 	"github.com/templwind/soul/events" // Assuming this is a shared library
@@ -205,20 +204,20 @@ func NewServiceContext(c *config.Config) (*ServiceContext, error) {
 		pubSubBroker = &events.NoOpBroker{}
 	}
 
-	// --- Communication Service Initialization ---
-	var commClient communication.Service
-	// Check if AWS config is provided and valid enough to attempt init
-	if c.AWS.Region != "" { // Basic check, InitService might do more validation
-		commClient, err = communication.InitService(context.Background(), c.AWS) // Pass AWS config struct
-		if err != nil {
-			log.Printf("WARN: Failed to initialize communication service (AWS Region: %s): %v", c.AWS.Region, err)
-			// Proceed without communication client, commClient remains nil
-		} else {
-			log.Printf("INFO: Communication service initialized (AWS Region: %s)", c.AWS.Region)
-		}
-	} else {
-		log.Println("INFO: AWS Region not provided in config. Skipping communication service initialization.")
-	}
+	// // --- Communication Service Initialization ---
+	// var commClient communication.Service
+	// // Check if AWS config is provided and valid enough to attempt init
+	// if c.AWS.Region != "" { // Basic check, InitService might do more validation
+	// 	commClient, err = communication.InitService(context.Background(), c.AWS) // Pass AWS config struct
+	// 	if err != nil {
+	// 		log.Printf("WARN: Failed to initialize communication service (AWS Region: %s): %v", c.AWS.Region, err)
+	// 		// Proceed without communication client, commClient remains nil
+	// 	} else {
+	// 		log.Printf("INFO: Communication service initialized (AWS Region: %s)", c.AWS.Region)
+	// 	}
+	// } else {
+	// 	log.Println("INFO: AWS Region not provided in config. Skipping communication service initialization.")
+	// }
 
 	// --- Email Sender Initialization Removed ---
 	// The consuming application is responsible for initializing its own email sender.
@@ -233,15 +232,15 @@ func NewServiceContext(c *config.Config) (*ServiceContext, error) {
 
 	// --- Construct ServiceContext ---
 	svcCtx := &ServiceContext{
-		Config:              c,
-		DB:                  gormDB, // Assign the initialized DB
-		RedisClient:         redisClient,
-		CommunicationClient: commClient,
-		Session:             sessionManager,
-		RateLimiter:         rateLimiter,
-		JobManager:          jobManager,
-		PubSubBroker:        pubSubBroker,
-		EventHub:            sse.NewEventHub(), // Assuming sse.NewEventHub needs no args
+		Config:      c,
+		DB:          gormDB, // Assign the initialized DB
+		RedisClient: redisClient,
+		// CommunicationClient: commClient,
+		Session:      sessionManager,
+		RateLimiter:  rateLimiter,
+		JobManager:   jobManager,
+		PubSubBroker: pubSubBroker,
+		EventHub:     sse.NewEventHub(), // Assuming sse.NewEventHub needs no args
 		// EmailSender:         emailSender, // Removed
 		ModuleServices: make(map[string]interface{}), // Initialize empty map
 		Settings:       make(models.SettingsMap),     // Initialize with correct type

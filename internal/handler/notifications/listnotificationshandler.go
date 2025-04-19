@@ -4,8 +4,8 @@ package notifications
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/notifications"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/notifications"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

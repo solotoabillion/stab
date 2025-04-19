@@ -4,8 +4,8 @@ package knowledgebase
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/knowledgebase"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/knowledgebase"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

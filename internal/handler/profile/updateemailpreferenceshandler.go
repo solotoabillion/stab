@@ -4,9 +4,9 @@ package profile
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/profile"
-	"stab/svc"
-	"stab/types"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/profile"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/labstack/echo/v4"
 	"github.com/templwind/soul/webserver/httpx"

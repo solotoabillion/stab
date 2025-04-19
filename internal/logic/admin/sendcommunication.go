@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time" // Added
 
-	"stab/middleware" // Added for admin user context
-	"stab/models"
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/middleware" // Added for admin user context
+	"github.com/solotoabillion/stab/models"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/google/uuid" // Added
 	"github.com/labstack/echo/v4"

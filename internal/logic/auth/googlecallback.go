@@ -9,10 +9,10 @@ import (
 	"net/url"
 	"os"
 
-	"stab/core/security"
-	"stab/models"
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/core/security"
+	"github.com/solotoabillion/stab/models"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"

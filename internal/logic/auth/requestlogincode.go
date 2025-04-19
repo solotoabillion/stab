@@ -6,8 +6,8 @@ import (
 	"math/rand"
 	"time"
 
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/labstack/echo/v4"
 	"github.com/zeromicro/go-zero/core/logx"

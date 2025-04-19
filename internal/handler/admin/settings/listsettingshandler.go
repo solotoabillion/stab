@@ -4,8 +4,8 @@ package settings
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/admin/settings"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/admin/settings"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

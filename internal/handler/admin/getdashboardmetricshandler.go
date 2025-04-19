@@ -4,8 +4,8 @@ package admin
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/admin"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/admin"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

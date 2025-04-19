@@ -5,9 +5,9 @@ import (
 
 	"encoding/json"
 
-	"stab/models"
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/models"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/google/uuid"
 

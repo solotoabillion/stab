@@ -4,10 +4,10 @@ import (
 	"context"
 	"net/http" // Added for status codes
 
-	"stab/middleware" // Added for ContextUserKey
-	"stab/models"
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/middleware" // Added for ContextUserKey
+	"github.com/solotoabillion/stab/models"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/google/uuid"      // Added for uuid.Nil check
 	"github.com/labstack/echo/v4" // Still needed for echo.Context and HTTPError

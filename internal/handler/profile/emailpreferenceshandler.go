@@ -4,8 +4,8 @@ package profile
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/profile"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/profile"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

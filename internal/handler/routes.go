@@ -3,23 +3,23 @@ package handler
 
 import (
 	// Use correct paths relative to module root ('stab')
-	admin "stab/internal/handler/admin" // Keep internal handlers
-	adminsettings "stab/internal/handler/admin/settings"
-	api "stab/internal/handler/api"
-	auth "stab/internal/handler/auth"
-	billing "stab/internal/handler/billing"
-	blog "stab/internal/handler/blog"
-	developer "stab/internal/handler/developer"
-	health "stab/internal/handler/health"
-	knowledgebase "stab/internal/handler/knowledgebase"
-	knowledgebaseadmin "stab/internal/handler/knowledgebase/admin"
-	notifications "stab/internal/handler/notifications"
-	profile "stab/internal/handler/profile"
-	teams "stab/internal/handler/teams"
+	admin "github.com/solotoabillion/stab/internal/handler/admin" // Keep internal handlers
+	adminsettings "github.com/solotoabillion/stab/internal/handler/admin/settings"
+	api "github.com/solotoabillion/stab/internal/handler/api"
+	auth "github.com/solotoabillion/stab/internal/handler/auth"
+	billing "github.com/solotoabillion/stab/internal/handler/billing"
+	blog "github.com/solotoabillion/stab/internal/handler/blog"
+	developer "github.com/solotoabillion/stab/internal/handler/developer"
+	health "github.com/solotoabillion/stab/internal/handler/health"
+	knowledgebase "github.com/solotoabillion/stab/internal/handler/knowledgebase"
+	knowledgebaseadmin "github.com/solotoabillion/stab/internal/handler/knowledgebase/admin"
+	notifications "github.com/solotoabillion/stab/internal/handler/notifications"
+	profile "github.com/solotoabillion/stab/internal/handler/profile"
+	teams "github.com/solotoabillion/stab/internal/handler/teams"
 	// Removed imports for non-existent agentic_cs module
-	// support "stab/internal/modules/agentic_cs/handler/support"
-	// supportadmin "stab/internal/modules/agentic_cs/handler/support/admin"
-	"stab/svc" // Use correct svc path
+	// support "github.com/solotoabillion/stab/internal/modules/agentic_cs/handler/support"
+	// supportadmin "github.com/solotoabillion/stab/internal/modules/agentic_cs/handler/support/admin"
+	"github.com/solotoabillion/stab/svc" // Use correct svc path
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo-jwt/v4"

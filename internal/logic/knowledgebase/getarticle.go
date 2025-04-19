@@ -3,10 +3,10 @@ package knowledgebase
 import (
 	"context"
 
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
-	"stab/models"
+	"github.com/solotoabillion/stab/models"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"

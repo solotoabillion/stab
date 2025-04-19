@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"stab/config" // Assuming AWS config is needed
+	"github.com/solotoabillion/stab/config" // Assuming AWS config is needed
 )
 
 // Service defines the interface for communication operations (email, SMS, etc.).

@@ -4,8 +4,8 @@ package auth
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/auth"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/auth"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

@@ -6,9 +6,9 @@ import (
 	"log"
 	"os"
 
-	"stab/models"
-	// "stab/svc" // Removed to break import cycle
-	// _ "stab/registry" // Removed old registration trigger
+	"github.com/solotoabillion/stab/models"
+	// "github.com/solotoabillion/stab/svc" // Removed to break import cycle
+	// _ "github.com/solotoabillion/stab/registry" // Removed old registration trigger
 
 	"gorm.io/gorm"
 

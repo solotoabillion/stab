@@ -4,8 +4,8 @@ package billing
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/billing"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/billing"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

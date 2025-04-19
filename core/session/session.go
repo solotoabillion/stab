@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"stab/config"
+	"github.com/solotoabillion/stab/config"
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"

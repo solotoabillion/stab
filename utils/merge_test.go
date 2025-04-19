@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"stab/types" // Update with the actual package path
+	"github.com/solotoabillion/stab/types" // Update with the actual package path
 
 	"github.com/stretchr/testify/assert"
 )

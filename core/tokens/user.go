@@ -4,11 +4,11 @@ import (
 	"encoding/json" // Added for JSON handling
 	"time"
 
-	"stab/config"
-	"stab/core/security"
-	"stab/core/session"
-	"stab/models"
-	"stab/types" // Added for UserProfileData type
+	"github.com/solotoabillion/stab/config"
+	"github.com/solotoabillion/stab/core/security"
+	"github.com/solotoabillion/stab/core/session"
+	"github.com/solotoabillion/stab/models"
+	"github.com/solotoabillion/stab/types" // Added for UserProfileData type
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"

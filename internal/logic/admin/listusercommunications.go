@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time" // Added for time formatting
 
-	"stab/models"
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/models"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/google/uuid" // Added for UUID parsing
 	"github.com/labstack/echo/v4"

@@ -3,7 +3,7 @@ package types
 import (
 	"encoding/json"
 
-	"stab/models"
+	"github.com/solotoabillion/stab/models"
 )
 
 func MapKBModelToType(a *models.KnowledgeBaseArticle) KnowledgeBaseArticle {

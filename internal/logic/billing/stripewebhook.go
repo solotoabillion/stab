@@ -9,9 +9,9 @@ import (
 	"net/http"
 	"time"
 
-	"stab/models"
-	"stab/svc"
-	"stab/types" // Added back for return type
+	"github.com/solotoabillion/stab/models"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types" // Added back for return type
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4" // Keep for HTTPError constants/creation

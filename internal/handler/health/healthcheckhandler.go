@@ -4,8 +4,8 @@ package health
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/health"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/health"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

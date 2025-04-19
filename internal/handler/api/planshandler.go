@@ -4,8 +4,8 @@ package api
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/api"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/api"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

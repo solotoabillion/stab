@@ -5,12 +5,10 @@ import (
 	"log"
 
 	// Import necessary packages from within the module
-	"stab/config"
-	"stab/internal/handler" // Added back handler import
-	"stab/modules"          // Use the modules package for initialization functions
-	"stab/svc"
-
-	// "stab/middleware" // Middleware isn't directly used here anymore
+	"github.com/solotoabillion/stab/config"
+	"github.com/solotoabillion/stab/internal/handler" // Added back handler import
+	"github.com/solotoabillion/stab/modules"          // Use the modules package for initialization functions
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4" // Added back echo import
 	// echoMiddleware "github.com/labstack/echo/v4/middleware" // Alias not needed now

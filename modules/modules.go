@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync" // Keep mutex for global slice
 
-	"stab/svc"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	// Removed config import

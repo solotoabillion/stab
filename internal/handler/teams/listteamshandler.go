@@ -4,8 +4,8 @@ package teams
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/teams"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/teams"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

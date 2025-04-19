@@ -4,8 +4,8 @@ package developer
 import (
 	"net/http"
 
-	logicHandler "stab/internal/logic/developer"
-	"stab/svc"
+	logicHandler "github.com/solotoabillion/stab/internal/logic/developer"
+	"github.com/solotoabillion/stab/svc"
 
 	"github.com/labstack/echo/v4"
 )

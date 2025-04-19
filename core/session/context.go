@@ -1,7 +1,7 @@
 package session
 
 import (
-	"stab/models"
+	"github.com/solotoabillion/stab/models"
 
 	"github.com/labstack/echo/v4"
 )

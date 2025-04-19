@@ -3,9 +3,9 @@ package middleware
 import (
 	"fmt"
 
-	"stab/config"
-	"stab/core/security"
-	"stab/models"
+	"github.com/solotoabillion/stab/config"
+	"github.com/solotoabillion/stab/core/security"
+	"github.com/solotoabillion/stab/models"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"

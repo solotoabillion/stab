@@ -6,11 +6,11 @@ import (
 	"errors"
 	"net/http"
 
-	"stab/core/security" // Added session import for cookie setting
-	"stab/core/session"
-	"stab/models"
-	"stab/svc"
-	"stab/types"
+	"github.com/solotoabillion/stab/core/security" // Added session import for cookie setting
+	"github.com/solotoabillion/stab/core/session"
+	"github.com/solotoabillion/stab/models"
+	"github.com/solotoabillion/stab/svc"
+	"github.com/solotoabillion/stab/types"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
