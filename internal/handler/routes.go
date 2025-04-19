@@ -43,10 +43,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
 				TokenLookup:   "cookie:auth",
-				ErrorHandler: func(c echo.Context, err error) error {
-					c.Redirect(302, "/auth/login")
-					return nil
-				},
+				// ErrorHandler: func(c echo.Context, err error) error {
+				// 	c.Redirect(302, "/auth/login")
+				// 	return nil
+				// },
 			}),
 		}...,
 	)
@@ -68,10 +68,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
 				TokenLookup:   "cookie:auth",
-				ErrorHandler: func(c echo.Context, err error) error {
-					c.Redirect(302, "/auth/login")
-					return nil
-				},
+				// ErrorHandler: func(c echo.Context, err error) error {
+				// 	c.Redirect(302, "/auth/login")
+				// 	return nil
+				// },
 			}),
 			// svcCtx.AdminRequired, // Middleware applied by consumer
 		}...,
@@ -160,10 +160,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
 				TokenLookup:   "cookie:auth",
-				ErrorHandler: func(c echo.Context, err error) error {
-					c.Redirect(302, "/auth/login")
-					return nil
-				},
+				// ErrorHandler: func(c echo.Context, err error) error {
+				// 	c.Redirect(302, "/auth/login")
+				// 	return nil
+				// },
 			}),
 		}...,
 	)
@@ -191,10 +191,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
 				TokenLookup:   "cookie:auth",
-				ErrorHandler: func(c echo.Context, err error) error {
-					c.Redirect(302, "/auth/login")
-					return nil
-				},
+				// ErrorHandler: func(c echo.Context, err error) error {
+				// 	c.Redirect(302, "/auth/login")
+				// 	return nil
+				// },
 			}),
 		}...,
 	)
@@ -221,10 +221,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
 				TokenLookup:   "cookie:auth",
-				ErrorHandler: func(c echo.Context, err error) error {
-					c.Redirect(302, "/auth/login")
-					return nil
-				},
+				// ErrorHandler: func(c echo.Context, err error) error {
+				// 	c.Redirect(302, "/auth/login")
+				// 	return nil
+				// },
 			}),
 		}...,
 	)
@@ -256,10 +256,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
 				TokenLookup:   "cookie:auth",
-				ErrorHandler: func(c echo.Context, err error) error {
-					c.Redirect(302, "/auth/login")
-					return nil
-				},
+				// ErrorHandler: func(c echo.Context, err error) error {
+				// 	c.Redirect(302, "/auth/login")
+				// 	return nil
+				// },
 			}),
 		}...,
 	)
@@ -281,10 +281,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
 				TokenLookup:   "cookie:auth",
-				ErrorHandler: func(c echo.Context, err error) error {
-					c.Redirect(302, "/auth/login")
-					return nil
-				},
+				// ErrorHandler: func(c echo.Context, err error) error {
+				// 	c.Redirect(302, "/auth/login")
+				// 	return nil
+				// },
 			}),
 		}...,
 	)
@@ -309,10 +309,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
 				TokenLookup:   "cookie:auth",
-				ErrorHandler: func(c echo.Context, err error) error {
-					c.Redirect(302, "/auth/login")
-					return nil
-				},
+				// ErrorHandler: func(c echo.Context, err error) error {
+				// 	c.Redirect(302, "/auth/login")
+				// 	return nil
+				// },
 			}),
 			// svcCtx.AdminRequired, // Middleware applied by consumer
 		}...,
@@ -338,10 +338,10 @@ func RegisterHandlers(server *echo.Echo, svcCtx *svc.ServiceContext) {
 				NewClaimsFunc: func(c echo.Context) jwt.Claims { return new(jwtCustomClaims) },
 				SigningKey:    []byte(svcCtx.Config.Auth.AccessSecret),
 				TokenLookup:   "cookie:auth",
-				ErrorHandler: func(c echo.Context, err error) error {
-					c.Redirect(302, "/auth/login")
-					return nil
-				},
+				// ErrorHandler: func(c echo.Context, err error) error {
+				// 	c.Redirect(302, "/auth/login")
+				// 	return nil
+				// },
 			}),
 			// svcCtx.AdminRequired, // Middleware applied by consumer
 		}...,
